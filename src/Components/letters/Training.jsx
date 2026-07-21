@@ -135,6 +135,8 @@ const styles = StyleSheet.create({
 const TrainingPdf = ({ data }) => {
   const pronoun = data.gender === "female" ? "her" : "his";
   const pronounSubject = data.gender === "female" ? "She" : "He";
+  const pronounObject = data.gender === "female" ? "her" : "him";
+  const pronounCaps = data.gender === "female" ? "Her" : "His";
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -170,10 +172,10 @@ const TrainingPdf = ({ data }) => {
             This letter certifies that{" "}
             <Text style={styles.bold}>{data.name}</Text> has been working with{" "}
             <Text style={styles.bold}>Panorama Software Solutions Pvt Ltd</Text>{" "}
-            as a <Text style={styles.bold}>{data.designation}</Text>from{" "}
+            as a <Text style={styles.bold}>{data.designation}</Text>{" "}from{" "}
             <Text style={styles.bold}>{data.date}</Text> to{" "}
-            <Text style={styles.bold}>{data.enddate}</Text> . He has done an
-            excellent job during his engagement with the company.
+            <Text style={styles.bold}>{data.enddate}</Text>. {pronounSubject} has done an
+            excellent job during {pronoun} engagement with the company.
           </Text>
           <Text style={styles.paragraph}>
             During {pronoun} tenure,{" "}
@@ -181,14 +183,14 @@ const TrainingPdf = ({ data }) => {
             a high level of performance, exceeding expectations.{" "}
             {pronounSubject} exhibited a proactive and accountable approach to{" "}
             {pronoun} tasks, demonstrating a keen attention to detail and a
-            strong commitment to excellence {pronoun} work ethic, reliability,
-            and integrity were exemplary, earning him the confidence and respect
+            strong commitment to excellence. {pronounCaps} work ethic, reliability,
+            and integrity were exemplary, earning {pronounObject} the confidence and respect
             of the management.
           </Text>
           <Text style={styles.paragraph}>
-            We would like to take this opportunity to express my appreciation to{" "}
-            <Text style={styles.bold}>{data.name}</Text> for his services and
-            wish him all the very best for his future endeavors
+            We would like to take this opportunity to express our appreciation to{" "}
+            <Text style={styles.bold}>{data.name}</Text> for {pronoun} services and
+            wish {pronounObject} all the very best for {pronoun} future endeavors.
           </Text>
 
           <Text style={{ ...styles.paragraph, marginBottom: 0, marginTop: 50 }}>
@@ -211,8 +213,8 @@ const TrainingPdf = ({ data }) => {
               <Text style={{ ...styles.paragraph, marginBottom: 1 }}>
                 <Text style={styles.bold}>
                   {data.addPvtLtd
-                    ? "Panorama Software Solution Pvt Ltd"
-                    : "Panorama Software Solution"}{" "}
+                    ? "Panorama Software Solutions Pvt Ltd"
+                    : "Panorama Software Solutions"}{" "}
                 </Text>
               </Text>
               <Text style={{ ...styles.paragraph, marginBottom: 1 }}>

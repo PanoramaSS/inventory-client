@@ -10,7 +10,7 @@ const OfferForm = ({ onSubmit, onClose }) => {
     joiningDate: "",
     letterDate: "",
     probationPeriod: 6,
-    bondPeriod: 2,
+    bondPeriod: 0,
     includePvtLtd: true,
   });
 
@@ -65,7 +65,10 @@ const OfferForm = ({ onSubmit, onClose }) => {
           <strong>Probation Period:</strong> {formData.probationPeriod} months
         </p>
         <p>
-          <strong>Bond Period:</strong> {formData.bondPeriod} years
+          <strong>Bond Period:</strong>{" "}
+          {Number(formData.bondPeriod) === 0
+            ? "No Bond"
+            : `${formData.bondPeriod} Years`}
         </p>
       </div>
       <div className="flex justify-end space-x-4 mt-8">
@@ -188,7 +191,7 @@ const OfferForm = ({ onSubmit, onClose }) => {
             id="bondPeriod"
             value={formData.bondPeriod}
             onChange={handleChange}
-            min="1"
+            min="0"
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             
           />

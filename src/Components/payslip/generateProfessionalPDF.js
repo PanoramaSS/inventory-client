@@ -89,259 +89,255 @@ export const generateProfessionalPDF = (formData) => {
   // TITLE
   //-------------------------------------------------------
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
+  // doc.setFont("helvetica", "bold");
+  // doc.setFontSize(11);
 
-  doc.text(
-    `Professional Payslip`,
-    88,
-    63
-  );
+  // doc.text(
+  //   `Professional Payslip`,
+  //   88,
+  //   63
+  // );
 
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
 
   doc.text(
     `Payslip for the period of ${formData.payPeriod}`,
-    66,
-    69
+    74,
+    62
   );
 
   //-------------------------------------------------------
   // HEADER DIVIDER
   //-------------------------------------------------------
 
-  doc.line(
-    15,
-    73,
-    210,
-    73
-  );
+  // doc.line(
+  //   15,
+  //   73,
+  //   210,
+  //   73
+  // );
 
     //-------------------------------------------------------
   // EMPLOYEE DETAILS
   //-------------------------------------------------------
 
-  doc.setFont("helvetica", "bold");
+  // doc.setFont("helvetica", "bold");
   doc.setFontSize(9);
 
   // Left Side
-  doc.text("Employee ID", 20, 82);
-  doc.text("Invoice Number", 20, 89);
-  doc.text("Bank Name", 20, 96);
+  doc.text("Employee ID", 20, 71);
+  doc.text("Invoice Number", 20, 78);
+  doc.text("Bank Name", 20, 85);
 
   // Right Side
-  doc.text("Employee Name", 115, 82);
-  doc.text("Invoice Date", 115, 89);
-  doc.text("Pay Date", 115, 96);
+  doc.text("Employee Name", 115, 71);
+  doc.text("Invoice Date", 115, 78);
+  doc.text("Pay Date", 115, 85);
 
   doc.setFont("helvetica", "normal");
 
-  doc.text(`: ${formData.employeeId}`, 58, 82);
+  doc.text(`: ${formData.employeeId}`, 58, 71);
 
   doc.text(
     `: ${formData.invoiceNumber}`,
     58,
-    89
+    78
   );
 
   doc.text(
     `: ${formData.bankName}`,
     58,
-    96
+    85
   );
 
   doc.text(
     `: ${formData.employeeName}`,
     153,
-    82
+    71
   );
 
   doc.text(
     `: ${formData.invoiceDate}`,
     153,
-    89
+    78
   );
 
   doc.text(
     `: ${formData.payDate}`,
     153,
-    96
+    85
   );
 
-  //-------------------------------------------------------
-  // TABLE HEADER
-  //-------------------------------------------------------
+    //-------------------------------------------------------
+    // TABLE HEADER
+    //-------------------------------------------------------
 
-  doc.line(15, 103, 210, 103);
+    doc.line(15, 100, 210, 100);
+    doc.line(15, 110, 210, 110);
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(10);
+    // vertical divider (same as existing payslip)
+    doc.line(110, 100, 110, 147);
 
-  doc.text("Description", 20, 110);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
 
-  doc.text(
-    "Amount",
-    190,
-    110,
-    {
-      align: "right",
-    }
-  );
+    doc.text("Earnings", 20, 106);
+    doc.text("Amount", 83, 106);
 
-  doc.line(15, 114, 210, 114);
+    doc.text("Deductions", 115, 106);
+    doc.text("Amount", 175, 106);
 
-  //-------------------------------------------------------
-  // PAY DETAILS
-  //-------------------------------------------------------
+    //-------------------------------------------------------
+    // ROW 1
+    //-------------------------------------------------------
 
-  let y = 122;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(9);
+    // LEFT
 
-  //-------------------------------------------------------
-  // PAY PERIOD
-  //-------------------------------------------------------
-
-  doc.text(
-    "Pay Period",
-    20,
-    y
-  );
-
-  doc.text(
-    formData.payPeriod,
-    190,
-    y,
-    {
-      align: "right",
-    }
-  );
-
-  y += 8;
-
-  //-------------------------------------------------------
-  // TOTAL PAY
-  //-------------------------------------------------------
-
-  doc.text(
-    "Total Pay",
-    20,
-    y
-  );
-
-  doc.text(
-    formatAmount(formData.totalPay),
-    190,
-    y,
-    {
-      align: "right",
-    }
-  );
-
-  y += 8;
-
-  //-------------------------------------------------------
-  // TDS
-  //-------------------------------------------------------
-
-  doc.text(
-    "TDS",
-    20,
-    y
-  );
-
-  doc.text(
-    formatAmount(formData.tds),
-    190,
-    y,
-    {
-      align: "right",
-    }
-  );
-
-  y += 8;
-
-  //-------------------------------------------------------
-  // GST
-  //-------------------------------------------------------
-
-  doc.text(
-    "GST",
-    20,
-    y
-  );
-
-  if (formData.gst === "18") {
     doc.text(
-        `${formatAmount(formData.gstAmount)} (18%)`,
-        190,
-        y,
-        {
-        align: "right",
-        }
+      `Pay Period (${formData.payPeriod})`,
+      20,
+      116
     );
-    } else {
+
     doc.text(
-      "Not Applicable",
-      190,
-      y,
+      formatAmount(formData.totalPay),
+      95,
+      116,
+      { align: "right" }
+    );
+
+    // RIGHT
+
+    doc.text("TDS",115,116);
+
+    doc.text(
+      formatAmount(formData.tds),
+      187,
+      116,
+      { align:"right" }
+    );
+
+    //-------------------------------------------------------
+    // ROW 2 (GST)
+    //-------------------------------------------------------
+
+    doc.text(
+      formData.gst === "18"
+        ? "GST (18%)"
+        : "GST",
+      20,
+      124
+    );
+
+    const gstAmount =
+      formData.gst === "18"
+        ? Number(formData.totalPay) * 0.18
+        : 0;
+
+    doc.text(
+      formData.gst === "18"
+        ? formatAmount(gstAmount)
+        : "Not Applicable",
+      95,
+      124,
+      {
+        align:"right"
+      }
+    );
+
+    //-------------------------------------------------------
+    // Divider
+    //-------------------------------------------------------
+
+    doc.line(15,140,210,140);
+
+    //-------------------------------------------------------
+    // TOTALS
+    //-------------------------------------------------------
+
+    // const totalEarnings =
+    //   Number(formData.totalPay) +
+    //   (formData.gst === "18"
+    //       ? Number(formData.gstAmount)
+    //       : 0);
+
+    const totalEarnings =
+      Number(formData.totalPay || 0) + gstAmount;
+
+    const totalDeductions =
+      Number(formData.tds || 0);
+
+    const netPay =
+      totalEarnings - totalDeductions;
+
+    doc.setFont("helvetica","bold");
+
+    doc.text(
+      "Total Earnings (Rounded)",
+      20,
+      145
+    );
+
+    doc.text(
+      formatAmount(totalEarnings),
+      95,
+      145,
+      {
+        align:"right"
+      }
+    );
+
+    doc.text(
+      "Total Deductions",
+      115,
+      145
+    );
+
+    doc.text(
+      formatAmount(totalDeductions),
+      187,
+      145,
       {
         align: "right",
       }
     );
-  }
 
-  y += 10;
+    //-------------------------------------------------------
+    // Bottom Divider
+    //-------------------------------------------------------
 
-  //-------------------------------------------------------
-  // DIVIDER
-  //-------------------------------------------------------
+    doc.line(15,147,210,147);
 
-  doc.line(
-    15,
-    y,
-    210,
-    y
-  );
+    //-------------------------------------------------------
+    // NET PAY
+    //-------------------------------------------------------
 
-  y += 10;
+    doc.text(
+      "Net Pay (Rounded)",
+      115,
+      152
+    );
 
-  //-------------------------------------------------------
-  // NET PAY
-  //-------------------------------------------------------
+    doc.text(
+      formatAmount(netPay),
+      187,
+      152,
+      {
+        align: "right",
+      }
+    );
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
+    //-------------------------------------------------------
+    // Footer Divider
+    //-------------------------------------------------------
 
-  doc.text(
-    "Net Pay",
-    20,
-    y
-  );
+    doc.line(15,160,210,160);
 
-  doc.text(
-    formatAmount(formData.netPay),
-    190,
-    y,
-    {
-      align: "right",
-    }
-  );
-
-  y += 8;
-
-  //-------------------------------------------------------
-  // GRAND TOTAL DIVIDER
-  //-------------------------------------------------------
-
-  doc.line(
-    15,
-    y,
-    210,
-    y
-  );
+    let y = 153.5;
 
     //-------------------------------------------------------
   // FOOTER
@@ -362,20 +358,20 @@ export const generateProfessionalPDF = (formData) => {
   // OPTIONAL NOTES
   //-------------------------------------------------------
 
-  if (formData.gst === "18") {
-    y += 6;
+  // if (formData.gst === "18") {
+  //   y += 6;
 
-    doc.setFontSize(7.5);
-    doc.setTextColor(120);
+  //   doc.setFontSize(7.5);
+  //   doc.setTextColor(120);
 
-    doc.text(
-      "* GST has been calculated at 18% for invoice reference.",
-      20,
-      y
-    );
+  //   doc.text(
+  //     "* GST has been calculated at 18% for invoice reference.",
+  //     20,
+  //     y
+  //   );
 
-    doc.setTextColor(0);
-  }
+  //   doc.setTextColor(0);
+  // }
 
   //-------------------------------------------------------
   // GENERATE PDF BLOB

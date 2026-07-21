@@ -133,7 +133,10 @@ const styles = StyleSheet.create({
 });
 
 // PDF Document component
-const OfferLetterPDF = ({ data }) => (
+const OfferLetterPDF = ({ data }) => {
+  const hasBond = Number(data.bondPeriod) > 0;
+
+  return (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header */}
@@ -239,14 +242,15 @@ const OfferLetterPDF = ({ data }) => (
           and take legal action.
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>7. Project:</Text> This is to clarify that
-          if a project is issued on your name whilst serving Panorama Software
-          Solutions, then it will be considered Panorama Software Solutions
-          intellectual property. Even after your termination or the completion
-          of your bond, that project will belong to Panorama Software Solutions.
-          You will have no right over the projects assigned to you after you
-          leave, which was earlier issued on your name by Panorama Software
-          Solutions.
+          <Text style={styles.bold}>7. Project:</Text> This is to clarify that if a
+          project is issued on your name whilst serving Panorama Software Solutions,
+          then it will be considered Panorama Software Solutions intellectual property.
+          {hasBond
+            ? " Even after your termination or the completion of your bond, that project will belong to Panorama Software Solutions."
+            : " Even after your termination, that project will belong to Panorama Software Solutions."
+          }
+          {" "}You will have no right over the projects assigned to you after you
+          leave, which was earlier issued on your name by Panorama Software Solutions.
         </Text>
       </View>
 
@@ -326,26 +330,30 @@ const OfferLetterPDF = ({ data }) => (
           salary will be credited within 45 working days after the employee's
           last day or after completion of Notice Period.
         </Text>
-        <Text style={styles.paragraph}>
-          <Text style={styles.bold}>12. Employment Duration:</Text> Bond Period:{" "}
-          A{" "}
-          <Text style={styles.bold}>
-            {data.bondPeriod}-year bond ({data.bondPeriod * 12} months + 3
-            months notice period mandatory) period
-          </Text>{" "}
-          will be in effect starting from the mentioned start date above. During
-          the bond period, you will be required to remain employed with Panorama
-          Software Solutions. If you choose to terminate your employment before
-          the completion of the bond period, you will be obligated to pay{" "}
-          <Text style={styles.bold}>Panorama Software Solutions</Text> a lump
-          sum amount of{" "}
-          <Text style={styles.bold}>
-            2 Lakh Rupees (INR) or whatever money was credited to you by the
-            company (whichever one is higher)
-          </Text>{" "}
-          plus any expenses incurred in connection with your recruitment,
-          training, or relocation as per the company's policy.
-        </Text>
+        {hasBond && (
+          <Text style={styles.paragraph}>
+            <Text style={styles.bold}>12. Employment Duration:</Text>{" "}
+            Bond Period: A{" "}
+            <Text style={styles.bold}>
+              {data.bondPeriod}-year bond ({data.bondPeriod * 12} months + 3 months
+              notice period mandatory) period
+            </Text>{" "}
+            will be in effect starting from the mentioned start date above.
+            During the bond period, you will be required to remain employed with
+            Panorama Software Solutions. If you choose to terminate your employment
+            before the completion of the bond period, you will be obligated to pay{" "}
+            <Text style={styles.bold}>
+              Panorama Software Solutions
+            </Text>{" "}
+            a lump sum amount of{" "}
+            <Text style={styles.bold}>
+              2 Lakh Rupees (INR) or whatever money was credited to you by the
+              company (whichever one is higher)
+            </Text>{" "}
+            plus any expenses incurred in connection with your recruitment,
+            training, or relocation as per the company's policy.
+          </Text>
+        )}
         <Text style={styles.paragraph}>
           Please convey your acceptance of this offer letter and terms and
           conditions there to by returning the enclosed copy duly signed.
@@ -400,6 +408,7 @@ const OfferLetterPDF = ({ data }) => (
     </Page>
   </Document>
 );
+};
 
 export default function Offer() {
   const [showForm, setShowForm] = useState(false);
