@@ -11,6 +11,7 @@ import Payslip from "./Components/payslip/Payslip";
 import PayslipForm from "./Components/payslip/PayslipForm";
 import Appraisal from "./Components/letters/Apperaisal";
 import Offer from "./Components/letters/Offer";
+import BasicOffer from "./Components/letters/BasicOffer";
 import Appointment from "./Components/letters/Appointment";
 import Training from "./Components/letters/Training";
 import Experience from "./Components/letters/Experience";
@@ -194,6 +195,7 @@ function App() {
             <Route path="/genpayslip" element={<Payslip />} />
             <Route path="/letters/appraisal" element={<Appraisal />} />
             <Route path="/letters/offer" element={<Offer />} />
+            <Route path="/letters/basicoffer" element={<BasicOffer />} />
             <Route path="/letters/appointment" element={<Appointment />} />
             <Route path="/letters/training" element={<Training />} />
             <Route path="/letters/experience" element={<Experience />} />

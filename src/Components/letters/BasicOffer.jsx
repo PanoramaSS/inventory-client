@@ -9,7 +9,7 @@ import {
   Image,
   PDFViewer,
 } from "@react-pdf/renderer";
-import OfferForm from "./OfferForm";
+import BasicOfferForm from "./BasicOfferForm";
 import NavBarLetters from "./NavBarLetters";
 
 // Register fonts
@@ -134,7 +134,18 @@ const styles = StyleSheet.create({
 
 // PDF Document component
 const OfferLetterPDF = ({ data }) => {
-  const hasBond = Number(data.bondPeriod) > 0;
+//   const hasBond = Number(data.bondPeriod) > 0;
+
+    const hasSalary = Number(data.salary) > 0;
+
+    const terminationNo = hasSalary ? 3 : 2;
+    const leaveNo = hasSalary ? 4 : 3;
+    const employmentNo = hasSalary ? 5 : 4;
+    const projectNo = hasSalary ? 6 : 5;
+    const communicationNo = hasSalary ? 7 : 6;
+    const confidentialityNo = hasSalary ? 8 : 7;
+    const codeNo = hasSalary ? 9 : 8;
+    const noticeNo = hasSalary ? 10 : 9;
 
   return (
   <Document>
@@ -171,7 +182,7 @@ const OfferLetterPDF = ({ data }) => {
         </Text>
       </View>
       <Text style={styles.title}>
-        <Text style={styles.bold}>Job Offer Letter</Text>
+        <Text style={styles.bold}>Internship Offer Letter</Text>
       </Text>
 
       <View style={styles.content}>
@@ -189,15 +200,22 @@ const OfferLetterPDF = ({ data }) => {
           may change this designation from time to time, to reflect a change in
           your responsibilities.
         </Text>
+        {Number(data.salary) > 0 && (
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>2. Emoluments:</Text> You will be paid a
-          monthly salary as discussed with you. Details will be provided in the
-          Appointment Letter after your joining. We will review these emoluments
-          annually, based on your performance, attitude to work, and conformance
-          with other terms and conditions of employment; but we shall be under
-          no obligation to increase them.
+            <Text style={styles.bold}>2. Emoluments:</Text>{" "}
+            You will be paid a monthly stipend of{" "}
+            <Text style={styles.bold}>
+            {Number(data.salary).toLocaleString("en-IN")}
+            </Text>{" "}
+            as discussed with you. Details of your compensation structure will be
+            provided in your Appointment Letter upon joining. Your remuneration
+            will be reviewed periodically based on your performance, attitude,
+            contribution to the organization, and compliance with company policies.
+            Such reviews shall be entirely at the discretion of the Company and
+            shall not be construed as a commitment to an annual salary increase.
         </Text>
-        <Text style={styles.paragraph}>
+        )}
+        {/* <Text style={styles.paragraph}>
           <Text style={styles.bold}>3. Probation:</Text> You will be on
           probation for the first{" "}
           <Text style={styles.bold}>{data.probationPeriod} months</Text>, the
@@ -208,18 +226,17 @@ const OfferLetterPDF = ({ data }) => {
           <Text style={styles.bold}>{data.probationPeriod} months</Text>. During
           the probation period, the company is at liberty to terminate the
           service at any time by giving 30 days notice.
-        </Text>
+        </Text> */}
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>4. Termination:</Text> We reserve the right
-          to terminate your services by giving you 30 days notice or by paying
-          15 days in lieu of on the basis of your performance. However, if any
+          <Text style={styles.bold}>{terminationNo}. Termination:</Text> We reserve the right
+          to terminate your services by giving you 15 days notice. However, if any
           information given by you at the time of your interview is found to be
           false or incorrect or in case of any Professional misconduct or
           non-performance, your services are liable to be terminated without any
           notice or Payment of salary in lieu of.
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>5. Leave:</Text> You will be allowed to
+          <Text style={styles.bold}>{leaveNo}. Leave:</Text> You will be allowed to
           leave based on the policies in force at the time. Presently, you are
           entitled to 12 working days leave each year. Leave will accrue from
           the date of joining but can be availed only after Confirmation. You
@@ -231,7 +248,7 @@ const OfferLetterPDF = ({ data }) => {
           following the holiday calendar of the client.
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>6. Other Employment:</Text> You will not,
+          <Text style={styles.bold}>{employmentNo}. Other Employment:</Text> You will not,
           while working at{" "}
           <Text style={styles.bold}>Panorama Software Solutions</Text>,
           undertake directly or indirectly employment with, or provision of paid
@@ -242,15 +259,26 @@ const OfferLetterPDF = ({ data }) => {
           and take legal action.
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>7. Project:</Text> This is to clarify that if a
+          <Text style={styles.bold}>{projectNo}. Project:</Text> This is to clarify that if a
           project is issued on your name whilst serving Panorama Software Solutions,
           then it will be considered Panorama Software Solutions intellectual property.
-          {hasBond
-            ? " Even after your termination or the completion of your bond, that project will belong to Panorama Software Solutions."
-            : " Even after your termination, that project will belong to Panorama Software Solutions."
-          }
+          Even after your termination, that project will belong to Panorama Software Solutions.
           {" "}You will have no right over the projects assigned to you after you
           leave, which was earlier issued on your name by Panorama Software Solutions.
+        </Text>
+        <Text style={styles.paragraph}>
+          <Text style={styles.bold}>{communicationNo}. Communications:</Text> Should the company
+          wish to formally communicate with you about your employment:
+        </Text>
+        <Text style={styles.subPoint}>
+          a) In the absence of any written communication about a change of
+          address, all communication will be sent to the address in the
+          application, and shall be deemed to have been received by you.
+        </Text>
+        <Text style={styles.subPoint}>
+          b) Any written communication given to you in presence of witnesses or
+          displayed on a notice board in the office will be deemed to have been
+          given to you even if you refuse it.
         </Text>
       </View>
 
@@ -269,7 +297,7 @@ const OfferLetterPDF = ({ data }) => {
     <Page size="A4" style={styles.page}>
       <View style={styles.content}>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>8. Confidentiality:</Text> You will maintain
+          <Text style={styles.bold}>{confidentialityNo}. Confidentiality:</Text> You will maintain
           complete confidentiality with respect to all information, documents,
           and materials about Panorama Software Solutions and its clients that
           may come into your possession in the course of your employment with
@@ -289,21 +317,7 @@ const OfferLetterPDF = ({ data }) => {
           also be treated as a serious confidentiality breach.
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>9. Communications:</Text> Should the company
-          wish to formally communicate with you about your employment:
-        </Text>
-        <Text style={styles.subPoint}>
-          a) In the absence of any written communication about a change of
-          address, all communication will be sent to the address in the
-          application, and shall be deemed to have been received by you.
-        </Text>
-        <Text style={styles.subPoint}>
-          b) Any written communication given to you in presence of witnesses or
-          displayed on a notice board in the office will be deemed to have been
-          given to you even if you refuse it.
-        </Text>
-        <Text style={styles.paragraph}>
-          <Text style={styles.bold}>10. Code-of-conduct:</Text> You are at all
+          <Text style={styles.bold}>{codeNo}. Code-of-conduct:</Text> You are at all
           times expected to behave in a manner that brings credit to yourself
           and to the company. You are also required to follow office policies
           and procedures, as described in the memorandums communicated to you
@@ -312,12 +326,12 @@ const OfferLetterPDF = ({ data }) => {
           would entitle us to terminate your services.
         </Text>
         <Text style={styles.paragraph}>
-          <Text style={styles.bold}>11. Notice-Period:</Text> The following are
+          <Text style={styles.bold}>{noticeNo}. Notice-Period:</Text> The following are
           the conditions pertaining to the Notice Period:
         </Text>
         <Text style={styles.subPoint}>
           a) You will be required to give{" "}
-          <Text style={styles.bold}>three months</Text> notice in writing to{" "}
+          <Text style={styles.bold}>one month</Text> notice in writing to{" "}
           <Text style={styles.bold}>Panorama Software Solutions</Text>.
         </Text>
         <Text style={styles.subPoint}>
@@ -330,9 +344,9 @@ const OfferLetterPDF = ({ data }) => {
           salary will be credited within 45 working days after the employee's
           last day or after completion of Notice Period.
         </Text>
-        {hasBond && (
+        {/* {hasBond && (
           <Text style={styles.paragraph}>
-            <Text style={styles.bold}>12. Employment Duration:</Text>{" "}
+            <Text style={styles.bold}>11. Employment Duration:</Text>{" "}
             Bond Period: A{" "}
             <Text style={styles.bold}>
               {data.bondPeriod}-year bond ({data.bondPeriod * 12} months + 3 months
@@ -353,7 +367,7 @@ const OfferLetterPDF = ({ data }) => {
             plus any expenses incurred in connection with your recruitment,
             training, or relocation as per the company's policy.
           </Text>
-        )}
+        )} */}
         <Text style={styles.paragraph}>
           Please convey your acceptance of this offer letter and terms and
           conditions there to by returning the enclosed copy duly signed.
@@ -410,7 +424,7 @@ const OfferLetterPDF = ({ data }) => {
 );
 };
 
-export default function Offer() {
+export default function BasicOffer() {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState(null);
 
@@ -429,14 +443,14 @@ export default function Offer() {
               onClick={() => setShowForm(true)}
               className="py-1 px-4 mx-24 rounded-md bg-pano-blue text-white shadow-lg font-sans hover:bg-blue-600 transition-colors"
             >
-              Generate Offer Letter
+              Generate Basic Offer Letter
             </button>
           </div>
 
           {showForm && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
               <div className="bg-white p-4 rounded-lg">
-                <OfferForm
+                <BasicOfferForm
                   onSubmit={handleFormSubmit}
                   onClose={() => setShowForm(false)}
                 />

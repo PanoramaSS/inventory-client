@@ -49,6 +49,10 @@ const NavBarLetters = () => {
                           label="Offer Letter"
                         />
                         <DropdownItem
+                          to="/letters/basicoffer"
+                          label="Basic Offer Letter"
+                        />
+                        <DropdownItem
                           to="/letters/appointment"
                           label="Appointment Letter"
                         />

@@ -98,15 +98,15 @@ export const generateProfessionalPDF = (formData) => {
   //   63
   // );
 
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
 
   doc.text(
     `Payslip for the period of ${formData.payPeriod}`,
-    74,
+    70,
     62
   );
-
+  doc.setFontSize(9);
   //-------------------------------------------------------
   // HEADER DIVIDER
   //-------------------------------------------------------
@@ -192,7 +192,7 @@ export const generateProfessionalPDF = (formData) => {
     // ROW 1
     //-------------------------------------------------------
 
-    doc.setFont("helvetica", "normal");
+    doc.setFont("helvetica", "bold");
     doc.setFontSize(9);
 
     // LEFT
@@ -202,6 +202,7 @@ export const generateProfessionalPDF = (formData) => {
       20,
       116
     );
+    doc.setFont("helvetica", "normal");
 
     doc.text(
       formatAmount(formData.totalPay),
@@ -211,9 +212,9 @@ export const generateProfessionalPDF = (formData) => {
     );
 
     // RIGHT
-
+    doc.setFont("helvetica", "bold");
     doc.text("TDS",115,116);
-
+    doc.setFont("helvetica", "normal");
     doc.text(
       formatAmount(formData.tds),
       187,
@@ -224,7 +225,7 @@ export const generateProfessionalPDF = (formData) => {
     //-------------------------------------------------------
     // ROW 2 (GST)
     //-------------------------------------------------------
-
+    doc.setFont("helvetica", "bold");
     doc.text(
       formData.gst === "18"
         ? "GST (18%)"
@@ -232,7 +233,7 @@ export const generateProfessionalPDF = (formData) => {
       20,
       124
     );
-
+    doc.setFont("helvetica", "normal");
     const gstAmount =
       formData.gst === "18"
         ? Number(formData.totalPay) * 0.18
