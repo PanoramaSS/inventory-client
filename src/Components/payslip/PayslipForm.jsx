@@ -32,11 +32,10 @@ const PayslipForm = ({ onSubmit, onClose }) => {
   };
 
   const handleDateChange = (date) => {
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       payDate: date,
-      payPeriod: startOfMonth(date),
-    });
+    }));
   };
 
   const handlePayPeriodChange = (date) => {
